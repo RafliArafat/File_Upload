@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 Route::get('/file-upload', [FileUploadController::class, 'fileUpload']);
 Route::post('/file-upload', [FileUploadController::class, 'prosesFileUpload']);
+
+Route::get('/file-upload-tugas', [FileUploadController::class, 'fileUploadTugas']);
+Route::post('/file-upload-tugas', [FileUploadController::class, 'prosesFileUploadTugas']);

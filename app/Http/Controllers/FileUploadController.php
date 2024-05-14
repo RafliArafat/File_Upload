@@ -9,6 +9,7 @@ class FileUploadController extends Controller
     public function fileUpload(){
         return view('file-upload');
     }
+    
     public function prosesFileUpload(Request $request){
         // dump($request->berkas);
         // return "Pemrosesan file upload di sini";
@@ -17,7 +18,7 @@ class FileUploadController extends Controller
             'berkas'=>'required|file|image|max:5000',
         ]);
         // $path = $request->berkas->store('uploads');
-        $extFile = $request->berkas->getClientOriginalName();
+        $extFile = $request->berkas->getClientOriginalExtension();
         $namaFile = 'web-'.time().".". $extFile;
 
         $path = $request->berkas->move('gambar',$namaFile);
@@ -45,5 +46,26 @@ class FileUploadController extends Controller
         // } else {
         //     echo "Tidak ada berkas yang diupload";
         // }
+    }
+
+    public function fileUploadTugas(){
+        return view('file-upload-tugas');
+    }
+
+    public function prosesFileUploadTugas(Request $request){
+        $request->validate([
+            'nama'=>'required|string|max:255',
+            'berkas'=>'required|file|image|max:5000',
+        ]);
+        $nama = $request->nama;
+        $extFile = $request->berkas->getClientOriginalExtension();
+        $namaFile = $nama.".".$extFile;
+
+        $path = $request->berkas->move('gambar', $namaFile);
+        $path = str_replace("\\","//",$path);
+        
+        $pathBaru = asset('gambar/'. $namaFile);
+        echo "Gambar berhasil di upload ke <a href='$pathBaru'>$namaFile</a><br>";
+        echo "<img src='$pathBaru' alt='$namaFile' width='150px'>";
     }
 }
